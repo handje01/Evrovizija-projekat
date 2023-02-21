@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color:white">
+    <link rel="stylesheet" href="/static/style.css">
+    <div class="container-fluid">
+        <img src="/static/img/ligasampiona.png" class="slika" alt="">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href={{ url_for("studenti") }}>Studenti</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href={{ url_for("predmeti") }}>Predmeti</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("korisnici") }}>Korisnici </a>
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-primary btn-lg"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <p class="my-5 korisnik-p">Izmeni Predmet</p>
+
+    <form action={{ url_for('izmenipredmet', id=predmet.id) }} method="POST">
+
+        <div class="row col-4 korisnik-input form-group">
+            <label for="nameInput">Sifra predmeta</label>
+            <input type="text" class="form-control" name="sifra" id="nameInput" value={{predmet.sifra}} required>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="nameInput">Naziv predmeta</label>
+            <input type="text" class="form-control" name="naziv" id="prezimeInput" value={{predmet.naziv}} required>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="nameInput">godina studija</label>
+            <input type="number" class="form-control" min="1" max="3" value={{predmet.god_studija}} name="god_studija"
+                id="emailInput" required>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="nameInput">ESPB</label>
+            <input type="number" max="10" class="form-control" value={{predmet.espb}} name="espb" id="emailInput"
+                required>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="passInput">status</label>
+            <!-- <input type="password" class="form-control" id="passInput" required> -->
+            <select name="status" id="status" value={{predmet.status}} class="form-select form-select-lg mb-3">
+                <option value="obavezan" default>obavezan</option>
+                <option value="izborni">izborni</option>
+            </select>
+        </div>
+
+        <input type="submit" id="dodajSubmit" class="btn btn-primary my-2" value="sacuvaj promene">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color:white">
+    <link rel="stylesheet" href="/static/style.css">
+    <div class="container-fluid">
+        <img src="/static/img/logobela.png" class="slika" alt="">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href={{ url_for("studenti") }}>Najbolji izvodjači</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href={{ url_for("predmeti") }}>Učesnici</a>
+                </li>
+                {% if(rola == 'admin') %}
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("korisnici") }}>Nalog</a>
+                </li>
+                {% endif %}
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-outline-warning"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <p class="my-5 korisnik-p">Novi učesnik</p>
+
+    <form action={{ url_for("dodajpredmet") }} method="POST">
+
+        <div class="row col-4 sifra-input form-group">
+            <label for="sifra"><b>Ime i prezime</b></label>
+            <input type="text" name="sifra" class="form-control" id="sifra" required>
+        </div> <br>
+
+        <div class="row col-4 naziv-input">
+            <label for="naziv"><b>Naziv pesme</b></label> 
+            <input type="text" name="naziv" class="form-control" id="naziv" required>
+        </div> <br> 
+
+        <div class="row col-4 god_studija-input">
+            <label for="godina_studija"><b>Broj osvojenih glasova</b></label>
+            <input type="number" name="godStudija" class="form-control" id="godina_studija" required>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="espb">Broj pobeda</label>
+            <input type="number" name="espb" class="form-control" id="espb" required>
+        </div> <br>
+
+        <div class="row col-4 status-input">
+            <label for="status"><b>Izvodjenje</b></label>
+            <!-- <input type="password" class="form-control" id="passInput" required> -->
+            <select name="status" name="status" id="status" class="form-select form-select-lg mb-3">
+                <option value="Solo" default>Solo</option>
+                <option value="Grupno">Grupno</option>
+            </select>
+        </div>
+
+        <input type="submit" id="dodajSubmit" class="btn btn-outline-warning" value="Dodaj učesnika">
+    </form>
+</div>
+{% endblock %}

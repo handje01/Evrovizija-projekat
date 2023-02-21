@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color:white">
+    <div class="container-fluid">
+        <img src="/static/img/logobela.png" class="slika" alt="">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href={{ url_for("studenti") }}>Najbolji izvodjači</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("predmeti") }}>Učesnici</a>
+                </li>
+
+                {% if(rola == 'admin') %}
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("korisnici") }}>Nalog</a>
+                </li>
+                {% endif %}
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-outline-warning"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <p class="my-5 korisnik-p">Novi izvodjač</p>
+
+    <form action={{ url_for("dodajstudenta") }} method="POST" enctype="multipart/form-data">
+
+        <div class="row col-4 index-input form-group mb-5">
+            <div class="container d-flex flex-row dodajsliku align-items-center gap-3">
+                <label for="student_slika" class="student_slika">
+                    <img src="/static/img/placeholder.png" id="student_slika1" alt="student_slika">
+                </label>
+                <label for="slika" class="btn btn-outline-warning" class="btn btn-primary dodajslikubtn">Odaberi sliku</label>
+            </div>
+            <input type="file" accept="image/*" hidden id="slika" name="slika">
+        </div>
+
+        <div class="row col-4 index-input form-group">
+            <label for="indexInput"><b>Država</b></label>
+            <input type="text" class="form-control" id="indexInput" name="indexInput" required>
+        </div> <br>
+
+        <div class="row col-4 ime-input form-group">
+            <label for="nameInput"><b>Ime učesnika</b></label>
+            <input type="text" class="form-control" id="nameInput" name="nameInput" required>
+        </div> <br>
+
+        <div class="row col-4 ime-roditelja-input form-group">
+            <label for="nameInput"><b>Ime roditelja</b></label>
+            <input type="text" class="form-control" id="nameRoditeljInput" name="nameRoditeljInput" required>
+        </div> <br>
+
+        <div class="row col-4 prezime-input">
+            <label for="nameInput"><b>Prezime učesnika</b></label>
+            <input type="text" class="form-control" id="prezimeInput" name="prezimeInput" required>
+        </div> <br>
+
+        <div class="row col-4 email-input">
+            <label for="nameInput"><b>Email</b></label>
+            <input type="email" class="form-control" id="emailInput" name="emailInput" required>
+        </div> <br>
+
+        <div class="row col-4 broj-input">
+            <label for="passInput"><b>Broj registracije učesnika</b></label>
+            <input type="text" class="form-control" id="telInput" name="telInput" required>
+        </div> <br>
+
+        <div class="row col-4 godina-input">
+            <label for="godStudija"><b>Godina</b></label>
+            <select name="godStudija" id="godStudija" name="godStudija" class="form-control form-select-lg mb-3">
+                <option value="1" default>Godina</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+            </select>
+        </div>
+
+        <div class="row col-4 espb-input form-group">
+            <label for="espbInput"><b>Osvojeno mesto</b></label>
+            <input type="text" class="form-control" name="espbInput" id="espbInput" required>
+        </div> <br>
+
+        <div class="row col-4 prosek-input -group">
+            <label for="nameInput"><b>Prosek glasova</b></label>
+            <input type="text" class="form-control" name="prosekInput" id="prosekInput" required>
+        </div> <br>
+
+        <div class="row col-4 rodjenje-input">
+            <label for="birthInput"><b>Datum rodjenja</b></label>
+            <input type="date" class="form-control" name="birthInput" id="birthInput" required>
+        </div> <br>
+
+        <div class="row col-4 jmbg-input">
+            <label for="jmbgInput"><b>JMBG</b></label>
+            <input type="text" class="form-control" name="jmbgInput" id="jmbgInput" required>
+        </div> <br>
+
+
+        <input type="submit" id="dodajSubmit" class="btn btn-outline-warning"  value="Dodaj izvodjača">
+    </form>
+</div>
+{% endblock %}

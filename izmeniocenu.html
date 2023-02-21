@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p class="my-5 korisnik-p">Izmeni ocenu</p>
+{% for ocena in ocene %}
+
+<form action={{ url_for("izmeniocenu", id=ocena.id) }} method="POST">
+
+    <div class="row col-4 korisnik-input form-group">
+        <label for="nameInput">Ocena</label>
+        <input type="number" class="form-control" name="ocenaInput" min="6" max="10" value={{ocena.ocena}} required>
+    </div>
+
+    <!-- <input type="button" id="otkaziSubmit" class="btn btn-danger" value="otkazi"> -->
+    <input type="submit" id="dodajSubmit" class="btn btn-primary my-2" value="sacuvaj promene">
+</form>
+{% endfor %}
+
+{% endblock %}

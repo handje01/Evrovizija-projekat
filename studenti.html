@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color:white">
+    <link rel="stylesheet" href="/static/style.css">
+    <div class="container-fluid">
+        <img src="/static/img/logobela.png" class="slika" alt="">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href={{ url_for("studenti") }}>Najbolji izvodjači</a>
+                </li>
+
+                {% if(rola == 'profesor' or rola == 'admin') %}
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("predmeti") }}>Učesnici</a>
+                </li>
+
+                {% if(rola == 'admin') %}
+
+                <li class="nav-item">
+                    <a class="nav-link " href={{ url_for("korisnici") }}>Nalog</a>
+                </li>
+                {% endif %}
+                {% endif %}
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-outline-warning"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="mt-5 mb-0 d-flex gap-2 justify-content-end">
+
+        {% if(rola == 'admin') %}
+        <a href={{ url_for("dodajstudenta") }} role="button" class="btn btn-outline-warning">Dodaj izvodjača</a>
+
+        
+        {% endif %}
+    </div>
+
+
+
+    <!-- TABELA -->
+    <div class=" row text-center mt-5">
+        <table class="table table-striped">
+            <form action={{ url_for("studenti") }} method="get">
+
+                <thead class="filter-pretraga">
+                    <tr>
+                        Filtriraj pretragu
+                    </tr>
+                    <tr class="prvi-th">
+                        <th scope="col">
+                            <div class="input-group input-group-sm">
+                                <input value="{{ args.broj_indeksa }}" name="broj_indeksa"
+                                    placeholder="Trazi po državi" type="text" class="form-control">
+                            </div>
+                        </th>
+
+                        <th scope="col">
+                            <div class="inline d-flex">
+                                <div class="input-group input-group-sm mr-3">
+                                    <input value="{{ args.ime }}" name="ime" placeholder="Ime" type="text"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </th>
+
+                        <th scope="col">
+                            <div class="inline d-flex">
+                                <div class="input-group input-group-sm mr-3">
+                                    <input value="{{ args.prezime }}" name="prezime" placeholder="Prezime" type="text"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </th>
+
+                        <th scope="col">
+                            <div class="input-group input-group-sm">
+                                <select name="Sezona" class="form-control">
+                                    <option selected>Godina</option>
+                                    <option {%if args.godina_studija=='1' %}selected{% endif %} value="1">2021</option>
+                                    <option {%if args.godina_studija=='2' %}selected{% endif %} value="2">2022</option>
+                                    <option {%if args.godina_studija=='3' %}selected{% endif %} value="3">2023</option>
+                                </select>
+                            </div>
+                        </th>
+
+                        <th scope="col">
+                            <div class="inline d-flex gap-1">
+                                <div class="input-group input-group-sm mr-3">
+                                    <input value="{{ args.prosek_ocena_od }}" name="prosek_ocena_od"
+                                        placeholder="Prosek glasova" type="text" class="form-control">
+                                </div>
+
+    
+                            </div>
+                        </th>
+
+                        <th scope="col">
+                            <div class="inline-btns d-flex gap-1">
+                                <button type="submit" class="btn btn-warning mr -3">Pretraži</button>
+                                <a role="button" class="btn btn btn-dark mr -3"
+                                    href="{{ url_for('studenti') }}">Poništi</a>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <thead class="thead-dark" style="font-size: 1em;">
+                    <tr>
+
+                        <th scope="col" style="width: 150px;">
+                            <label for="order_by_broj_indeksa" class="header-btn" style="cursor: pointer;">
+                                Država
+                                <i class="fas fa-sort sort"></i>
+                            </label>
+                            <input style="display: none;" id="order_by_broj_indeksa" value="broj_indeksa"
+                                class="header-btn" type="submit" name="order_by" />
+                        </th>
+
+                        <th scope="col">
+                            <label for="order_by_ime" class="header-btn" style="cursor: pointer;">
+                                Ime učesnika
+                                <i class="fas fa-sort sort"></i>
+                            </label>
+                            <input style="display: none;" id="order_by_ime" value="ime" class="header-btn" type="submit"
+                                name="order_by" />
+                        </th>
+
+                        <th scope="col">
+                            <label for="order_by_prezime" class="header-btn" style="cursor: pointer;">
+                                Prezime učesnika
+                                <i class="fas fa-sort sort"></i>
+                            </label>
+                            <input style="display: none;" id="order_by_prezime" value="prezime" class="header-btn"
+                                type="submit" name="order_by" />
+                        </th>
+
+                        <th scope="col">
+                            <label for="order_by_god_studija" class="header-btn" style="cursor: pointer;">
+                                Godina
+                                <i class="fas fa-sort sort"></i>
+                            </label>
+                            <input style="display: none;" id="order_by_god_studija" value="god_studija"
+                                class="header-btn" type="submit" name="order_by" />
+                        </th>
+
+                        <th class="col" style="width: 150px;">
+                            <label for="order_by_espb" class="header-btn" style="cursor: pointer;">
+                                Osv. mesto
+                                <i class="fas fa-sort sort"></i>
+                            </label>
+                            <input style="display: none;" id="order_by_espb" value="espb" class="header-btn"
+                                type="submit" name="order_by" />
+                        </th>
+
+                        <th class="col" style="width: 150px;">
+                            <label for="order_by_prosek_ocena" class="header-btn" style="cursor: pointer;">
+                                Prosek glasova
+                                <i class="fas fa-sort sort"></i>
+                            </label>
+                            <input style="display: none;" id="order_by_prosek_ocena" value="prosek_ocena"
+                                class="header-btn" type="submit" name="order_by" />
+                        </th>
+                        <th class="col">Akcije</th>
+                    </tr>
+                </thead>
+
+                <input name="prethodni_order_by" value="{{ args.order_by }}" hidden>
+                <input name="order_type" value="{{ order_type }}" hidden>
+                <input name="page" value="{{ strana }}" hidden>
+            </form>
+            <tbody>
+                {% for student in studenti %}
+                <tr>
+                    <td>{{ student.broj_indeksa }}</td>
+                    <td>{{ student.ime }}</td>
+                    <td>{{ student.prezime }}</td>
+                    <td>{{ student.god_studija }} </td>
+                    <td>{{ student.espb }}</td>
+                    <td>{{ student.prosek_ocena }}</td>
+
+                    <td style="display: flex; flex-direction: row;" class="justify-content-center">
+                        <a href={{ url_for("student", id=student.id ) }} role="button" class="text-primary mx-1">
+                            <i class="far fa-eye"></i>
+                        </a>
+
+                        {% if(rola == 'admin') %}
+                        <a href={{ url_for("izmenistudenta", id=student.id ) }} role="button" class="text-warning mx-1">
+                            <i class="far fa-edit"></i>
+                        </a>
+
+                        <button class="text-danger mx-1" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal{{student.id}}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        {%endif%}
+                    </td>
+                </tr>
+
+                <!-- MODAL -->
+                <div class="modal fade" id="deleteModal{{student.id}}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                Da li si sigurni da želite da obrišete {{ student.ime }} {{ student.prezime }}?
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    Odustani
+                                </button>
+
+                                <form action={{url_for("izbrisistudenta", id=student.id) }} method="post"
+                                    class="text-danger mx-1">
+                                    <button class="btn btn-danger">Obrisi</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<nav>
+    <ul class="pagination justify-content-center mt-3">
+        <li class="page-item {% if strana=='1' %} disabled {% endif %}">
+            <a class="btn btn-outline-warning" class="page-link bg-info" href="{{ prethodna_strana}}">Prethodna</a> &nbsp;
+        </li>
+        <li class="page-item active">
+            <a class="btn btn-outline-warning" class="page-link bg-dark" href="#">{{strana }}</a> &nbsp;
+        </li>
+        <li class="page-item">
+            <a class="btn btn-outline-warning" class="page-link bg-info" href="{{ sledeca_strana }}">Sledeca</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}

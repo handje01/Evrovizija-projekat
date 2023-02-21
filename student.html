@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+    <link rel="stylesheet" href="/static/style.css">
+    <img src="/static/img/logobela.png" class="slika" alt="">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link active" href={{ url_for("studenti") }}>Najbolji izvodjači</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href={{ url_for("predmeti") }}>Učesnici</a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link" href={{ url_for("korisnici") }}>Nalog</a>
+            </li>
+
+
+        </ul>
+        <form class="form-inline posi my-2 my-lg-0">
+            <a href={{ url_for("logout") }} class="btn btn-outline-warning">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-6 mt-5">
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <img {%if student.slika%} src="/static/uploads/{{ student.slika }}" {%else%}
+                                src="/static/placeholder.png" {%endif%} id="slika_pregled" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Ime učesnika</th>
+                        <td>{{student.ime}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ime roditelja</th>
+                        <td>{{student.ime_roditelja}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Prezime učesnika</th>
+                        <td>{{student.prezime}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Država</th>
+                        <td>{{student.broj_indeksa}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Broj telefona</th>
+                        <td>{{student.broj_telefona}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td>{{student.email}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Datum rodjenja</th>
+                        <td>{{student.datum_rodjenja}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Broj registracije učesnika</th>
+                        <td>{{student.jmbg}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Osvojeno mesto</th>
+                        <td>{{student.espb}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Prosek glasova</th>
+                        <td>{{student.prosek_ocena}}</td>
+                    </tr>
+                    {% if(rola == 'admin') %}
+                    <tr>
+                        <th scope="row">Akcije</th>
+                        <td>
+                            <a href={{ url_for("izmenistudenta",id=student.id) }} role="button"
+                                class="text-warning mx-1">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a href={{ url_for("izbrisistudenta",id=student.id) }} role="button"
+                                class="text-danger mx-1">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+        {% if(rola == 'admin' or rola == 'profesor') %}
+        <div class="col-6 mt-5">
+            <form action={{ url_for("dodajocenu", id=student.id) }} method="POST">
+                <div class="form-group">
+                    
+                        
+                        {% for predmet in predmeti %}
+                    
+                        {% endfor %}
+                    </select>
+               
+                
+                <div class="d-flex align-items-center justify-content-center position-absolute my-3">
+                    
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ocena in ocene %}
+                    <tr class="table-active">
+                        <td>{{ocena.sifra}}</td>
+                        <td>{{ocena.naziv}}</td>
+                        <td>{{ocena.godina_studija}}</td>
+                        <td>{{ocena.espb}}</td>
+                        <td>{{ocena.status}}</td>
+                        <td>{{ocena.ocena}}</td>
+                        <td>{{ocena.datum}}</td>
+                        <td colspan="2">
+                            <a href={{ url_for("izmeniocenu", id=ocena.id) }} role="button" class="text-warning mx-1">
+                                <i class="far fa-edit"></i>
+                            </a>
+
+                            <a href={{ url_for("izbrisiocenu", id=ocena.id) }} role="button" class="text-danger mx-1">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

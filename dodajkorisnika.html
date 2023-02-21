@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color:white">
+    <div class="container-fluid">
+        <img src="/static/img/logobela.png" class="slika" alt="">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href={{ url_for("studenti") }}>Najbolji izvodjači</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("predmeti") }}>Učesnici</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href={{ url_for("korisnici") }}>Nalog </a>
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-outline-warning"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <p class="my-5 korisnik-p">Novi korisnik</p>
+
+    <form action={{ url_for("dodajkorisnika") }} method="POST">
+
+        <div class="row col-4 korisnik-input form-group">
+            <label for="nameInput">Ime</label>
+            <input type="text" class="form-control" id="nameInput" name="ime" required>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="prezimeInput">Prezime</label>
+            <input type="text" class="form-control" id="prezimeInput" name="prezime" required>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="emailInput">Email</label>
+            <input type="email" class="form-control" id="emailInput" name="email" required>
+        </div>
+            <br>
+        <div class="row col-4"> 
+            <label for="rola"><b>Rola</b></label> 
+            <select name="rola" id="rola" class="form-control form-select korisnik-input" name="rola">
+                <option value="profesor"></option>
+                <option value="Admin">Admin</option>
+                <option value="Učesnik">Učesnik</option>         
+            </select>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="passInput">Lozinka</label>
+            <input type="password" class="form-control" id="passInput" name="lozinka" required>
+        </div> <br>
+
+        <input role="button" type="submit" id="dodajSubmit" class="btn btn-outline-warning"  value="Dodaj korisnika">
+    </form>
+</div>
+{% endblock %}

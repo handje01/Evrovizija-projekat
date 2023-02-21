@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="color:white">
+    <link rel="stylesheet" href="/static/style.css">
+    <div class="container-fluid">
+        <img src="/static/img/logobela.png" class="slika" alt="">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href={{ url_for("studenti") }}>Najbolji izvodjači</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("predmeti") }}>Učesnici</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href={{ url_for("korisnici") }}>Nalog</a>
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <a href={{ url_for('logout') }} class="btn btn-outline-warning"><i class="fas fa-sign-out-alt"></i></a>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <p class="my-5 korisnik-p">Izmeni izvodjača</p>
+
+    <form action={{ url_for("izmenistudenta", id=student.id ) }} method="POST" enctype="multipart/form-data">
+
+        <div class="row col-4 index-input form-group mb-5">
+            <div class="container d-flex flex-row dodajsliku align-items-center gap-3">
+                <label for="student_slika" class="student_slika">
+                    <img {% if student.slika %} src="/static/uploads/{{student.slika}}" {% else %}
+                        src="/static/img/placeholder.png" {% endif %} id="student_slika1" alt="student_slika">
+                </label>
+                <label for="slika" class="btn btn-outline-warning" class="btn btn-primary dodajslikubtn" name="slika">Odaberi sliku</label>
+            </div>
+            <input type="file" accept="image/*" hidden id="slika" name="slika">
+        </div>
+
+        <div class="row col-4 korisnik-input form-group">
+            <label for="nameInput">Država</label>
+            <input type="text" class="form-control" name="indexInput" id="indexInput" value={{student.broj_indeksa}}
+                required>
+        </div>
+
+        <div class="row col-4 korisnik-input form-group">
+            <label for="nameInput">Ime</label>
+            <input type="text" class="form-control" name="nameInput" id="nameInput" required value={{student.ime}}>
+        </div>
+
+        <div class="row col-4 korisnik-input form-group">
+            <label for="nameInput">Ime roditelja</label>
+            <input type="text" class="form-control" name="nameRoditeljInput" id="nameInput" required
+                value={{student.ime_roditelja}}>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="nameInput">Prezime</label>
+            <input type="text" class="form-control" name="prezimeInput" id="prezimeInput" required
+                value={{student.prezime}}>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="nameInput">Email</label>
+            <input type="email" class="form-control" name="emailInput" id="emailInput" required value={{student.email}}>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="passInput">Broj telefona</label>
+            <input type="text" class="form-control" name="telInput" id="telInput" required
+                value={{student.broj_telefona}}>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="godStudija">Godina</label>
+            <select id="godStudija" name="godStudija" class="form-select form-select-lg mb-3">
+                <option value="1" default>Godina</option>
+                <option value="2">2021</option>
+                <option value="3">2022</option>
+                <option value="4">2023</option>
+            </select>
+        </div>
+
+        <div class="row col-4 korisnik-input form-group">
+            <label for="nameInput">Osvojeno mesto</label>
+            <input type="text" class="form-control" name="espbInput" id="espbInput" required value={{student.espb}}>
+        </div>
+
+        <div class="row col-4 korisnik-input form-group">
+            <label for="nameInput">Prosek glasova</label>
+            <input type="text" class="form-control" name="prosekInput" id="nameInput" required
+                value={{student.prosek_ocena}}>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="birthInput">Datum rodjenja</label>
+            <input type="date" class="form-control" name="birthInput" id="birthInput" required
+                value={{student.datum_rodjenja}}>
+        </div>
+
+        <div class="row col-4 korisnik-input">
+            <label for="jmbgInput">JMBG</label>
+            <input type="text" class="form-control" name="jmbgInput" id="jmbgInput" required value={{student.jmbg}}>
+        </div> <br>
+
+
+        <input type="submit" id="dodajSubmit" class="btn btn-outline-warning" value="Sacuvaj promene">
+    </form>
+</div>
+{% endblock %}
